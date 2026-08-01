@@ -45,6 +45,20 @@
         "image_base": { "type": "integer", "minimum": 0 }
       }
     },
+    "ghidra": {
+      "type": "object", "additionalProperties": false,
+      "properties": {
+        "cache_root": { "type": "string", "minLength": 1 },
+        "default_mode": { "enum": ["auto", "targeted", "parallel", "gui"] },
+        "targeted_max_targets": { "type": "integer", "minimum": 1 },
+        "parallel_max_targets": { "type": "integer", "minimum": 1 },
+        "batch_size": { "type": "integer", "minimum": 1 },
+        "max_workers": { "type": "integer", "minimum": 1 },
+        "per_function_timeout_seconds": { "type": "integer", "minimum": 1 },
+        "analyzer_profile": { "enum": ["minimal", "balanced", "full"] },
+        "max_cpu": { "type": "integer", "minimum": 0 }
+      }
+    },
     "tools": {
       "type": "object",
       "additionalProperties": false,

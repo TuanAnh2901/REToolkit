@@ -11,6 +11,17 @@
     "metadata": "${RETOOLKIT_GAME_ROOT}/Everlusting Life_Data/il2cpp_data/Metadata/global-metadata.dat",
     "root": "${RETOOLKIT_GAME_ROOT}"
   },
+  "ghidra": {
+    "cache_root": "${RETOOLKIT_WORKSPACE}/ghidra-cache",
+    "default_mode": "auto",
+    "targeted_max_targets": 256,
+    "parallel_max_targets": 5000,
+    "batch_size": 128,
+    "max_workers": 8,
+    "per_function_timeout_seconds": 180,
+    "analyzer_profile": "minimal",
+    "max_cpu": 0
+  },
   "index": {
     "database": "${RETOOLKIT_WORKSPACE}/re-index/retoolkit.db",
     "query_limit": 100
