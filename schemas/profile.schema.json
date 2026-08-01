@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://retoolkit.dev/schemas/profile.schema.json",
+  "title": "retoolkit game profile",
+  "description": "Portable description of a game, its tools, and which pipeline stages run. Committed profiles must not contain absolute paths; paths resolve from environment templates at runtime.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "name", "game", "workspace"],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "name": { "type": "string", "minLength": 1, "pattern": "^[a-z0-9_-]+$" },
+    "game": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["root", "game_assembly", "metadata"],
+      "properties": {
+        "root": { "type": "string", "minLength": 1 },
+        "game_assembly": { "type": "string", "minLength": 1 },
+        "metadata": { "type": "string", "minLength": 1 }
+      }
+    },
+    "workspace": { "type": "string", "minLength": 1 },
+    "metadata_fixup": {
+      "type": "object",
+      "description": "Obfuscated-metadata rebuild rules; validated against metadata_fixup.schema.json by the fixup stage",
+      "additionalProperties": true
+    },
+    "method_map_collision_policy": { "enum": ["report", "keep_all"] },
+    "analysis": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "ghidra_targets": {
+          "type": "array",
+          "items": { "type": "integer", "minimum": 0 }
+        },
+        "image_base": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "tools": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "cpp2il": { "$ref": "#/$defs/tool" },
+        "ghidra": { "$ref": "#/$defs/tool" },
+        "frida": { "$ref": "#/$defs/tool" }
+      }
+    },
+    "stages": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fixup": { "type": "boolean" },
+        "cpp2il": { "type": "boolean" },
+        "frida": { "type": "boolean" },
+        "ghidra": { "type": "boolean" }
+      }
+    }
+  },
+  "$defs": {
+    "tool": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["timeout_seconds"],
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "plugin_dir": { "type": "string", "minLength": 1 },
+        "timeout_seconds": { "type": "integer", "minimum": 1 }
+      }
+    }
+  }
+}

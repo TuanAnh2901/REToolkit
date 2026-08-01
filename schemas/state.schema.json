@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://retoolkit.dev/schemas/state.schema.json",
+  "title": "retoolkit pipeline state",
+  "description": "Linear ordered pipeline state persisted atomically in the workspace. Resume skips only completed stages whose recorded input hash still matches.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "run_id", "input_hash", "stages"],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "run_id": { "type": "string", "minLength": 1 },
+    "input_hash": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "workspace": { "type": "string", "minLength": 1 },
+    "stages": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "status"],
+        "properties": {
+          "name": { "type": "string", "minLength": 1 },
+          "status": { "enum": ["pending", "running", "completed", "failed"] },
+          "input_hash": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+          "evidence": { "type": "string" }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,26 @@
+[
+  {
+    "assembly": "Assembly-CSharp",
+    "type": "<>f__AnonymousType0`2",
+    "method": "get_groupData",
+    "signature": "<groupData>j__TPar <>f__AnonymousType0`2::get_groupData()",
+    "pointer": "0x1805CAFA0",
+    "rva": "0x5CAFA0"
+  },
+  {
+    "assembly": "Assembly-CSharp",
+    "type": "<>f__AnonymousType0`2",
+    "method": "get_bundleData",
+    "signature": "<bundleData>j__TPar <>f__AnonymousType0`2::get_bundleData()",
+    "pointer": "0x1805A6150",
+    "rva": "0x5A6150"
+  },
+  {
+    "assembly": "Assembly-CSharp",
+    "type": "<>f__AnonymousType0`2",
+    "method": ".ctor",
+    "signature": "System.Void <>f__AnonymousType0`2::.ctor(<groupData>j__TPar groupData, <bundleData>j__TPar bundleData)",
+    "pointer": "0x1805CCE60",
+    "rva": "0x5CCE60"
+  }
+]

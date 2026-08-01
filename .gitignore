@@ -1,0 +1,10 @@
+__pycache__/
+*.egg-info/
+.pytest_cache/
+*.pyc
+.venv/
+build/
+dist/
+fake-argv.json
+fake-pids.json
+.worktrees/

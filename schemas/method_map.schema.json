@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://retoolkit.dev/schemas/method_map.schema.json",
+  "title": "retoolkit normalized method map",
+  "description": "Canonical normalized method-pointer map. Entries are sorted by full identity; duplicate short names remain distinguishable by full identity.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "source", "method_count", "methods"],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "source": { "type": "string", "minLength": 1 },
+    "method_count": { "type": "integer", "minimum": 0 },
+    "methods": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["assembly", "type", "method", "signature", "rva", "full_identity"],
+        "properties": {
+          "assembly": { "type": "string", "minLength": 1 },
+          "type": { "type": "string" },
+          "method": { "type": "string" },
+          "signature": { "type": "string" },
+          "pointer": { "type": "string", "pattern": "^0x[0-9a-fA-F]+$" },
+          "rva": { "type": "string", "pattern": "^0x[0-9a-fA-F]+$" },
+          "full_identity": { "type": "string", "minLength": 1 }
+        }
+      }
+    }
+  }
+}

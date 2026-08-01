@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0.0",
+  "probe_date": "2026-07-31",
+  "classification": "missing",
+  "archive": "D:\\Tools\\ghidra_12.1.2_PUBLIC_20260605.zip",
+  "installed": false,
+  "headless_path": null,
+  "version": null,
+  "install_guidance": "Extract the archive (Java 21+), verify SHA-256 first, then set tools.ghidra.path or RETOOLKIT_GHIDRA to the extracted root; expected headless script is <root>/support/analyzeHeadless.bat",
+  "expected_argv": [
+    "analyzeHeadless.bat",
+    "<project_dir>",
+    "<project_name>",
+    "-import",
+    "<binary>",
+    "-scriptPath",
+    "<toolkit>/ghidra_scripts",
+    "-postScript",
+    "DecompileTargets.java",
+    "<rva>",
+    "<output.txt>",
+    "-deleteProject"
+  ],
+  "targeting_rule": "explicit RVA list only; never full analysis by default"
+}

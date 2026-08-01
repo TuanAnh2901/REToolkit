@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.0.0",
+  "probe_date": "2026-07-31",
+  "executable": {
+    "published_path": "D:\\VSCode\\Cpp2IL\\Cpp2IL\\Cpp2IL\\bin\\Release\\net10.0\\Cpp2IL.exe",
+    "working_path": "D:\\Temp\\opencode\\cpp2il-build\\Cpp2IL.exe",
+    "version": "2022.1.0+bb7fbddc4a806c6fa06a4154cbf46eac669f8434",
+    "runtime": "net10.0"
+  },
+  "plugin": {
+    "name": "Cpp2IL.Plugin.Mfuscator.dll",
+    "discovery": "<cwd>/Plugins",
+    "loaded": true
+  },
+  "argv": [
+    "Cpp2IL.exe",
+    "--force-binary-path",
+    "<game>/GameAssembly.dll",
+    "--force-metadata-path",
+    "<game>/global-metadata.dat",
+    "--force-unity-version",
+    "6000.1.4f1",
+    "--export-method-map",
+    "--output-to",
+    "<workspace>/out"
+  ],
+  "go_no_go": {
+    "published_trimmed_build": "no-go",
+    "reason": "reflection serialization disabled by PublishTrimmed; --export-method-map crashes exit 0xE0434352",
+    "non_trimmed_build": "go",
+    "runtimeconfig_fix": "System.Text.Json.JsonSerializer.IsReflectionEnabledByDefault=true",
+    "observed": {
+      "exit_code": 0,
+      "duration_seconds": 11.5,
+      "method_count": 206366,
+      "output_file": "method-pointer-map.json",
+      "output_size_bytes": 70853167
+    }
+  },
+  "output_format_decision": "use --export-method-map JSON file output; never parse colored stdout prose",
+  "output_formats": [
+    "dummydll",
+    "dll_default",
+    "dll_empty",
+    "dll_throw_null",
+    "dll_il_recovery",
+    "diffable-cs",
+    "isil",
+    "wasmmappings",
+    "wasm_name_section"
+  ],
+  "map_shape": {
+    "file": "method-pointer-map.json",
+    "keys": ["assembly", "type", "method", "signature", "pointer", "rva"],
+    "sample": {
+      "assembly": "Assembly-CSharp",
+      "type": "<>f__AnonymousType0`2",
+      "method": "get_groupData",
+      "signature": "<groupData>j__TPar <>f__AnonymousType0`2::get_groupData()",
+      "pointer": "0x1805CAFA0",
+      "rva": "0x5CAFA0"
+    }
+  }
+}

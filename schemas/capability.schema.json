@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://retoolkit.dev/schemas/capability.schema.json",
+  "title": "retoolkit capability report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "capabilities"],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "capabilities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "status"],
+        "properties": {
+          "name": { "type": "string", "minLength": 1 },
+          "status": { "enum": ["present", "missing", "optional_missing"] },
+          "version": { "type": "string" },
+          "path": { "type": ["string", "null"] }
+        }
+      }
+    }
+  }
+}

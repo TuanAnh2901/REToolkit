@@ -1,0 +1,226 @@
+{
+ "header_length": 676,
+ "header_offset": 4,
+ "header_prefix": "e1b06cfe",
+ "known_good_hash": "ad9c4ec9b62682c6f6380759c090632469ac932e90ee3668015558d0f6d65dc7",
+ "metadata_magic": 4205910959,
+ "metadata_version": 31,
+ "mutations": [
+  {
+   "a": 0,
+   "b": 671,
+   "kind": "swap"
+  },
+  {
+   "kind": "xor",
+   "offset": 9,
+   "value": 39
+  },
+  {
+   "kind": "xor",
+   "offset": 5,
+   "value": 89
+  }
+ ],
+ "payload_start": 684,
+ "preserved_tail_start": 256,
+ "schema_version": "1.0.0",
+ "sections": [
+  {
+   "custom_offset_field": 220,
+   "custom_size_field": 428,
+   "index": 0,
+   "name": "stringLiteral"
+  },
+  {
+   "custom_offset_field": 180,
+   "custom_size_field": 620,
+   "index": 1,
+   "name": "stringLiteralData",
+   "payload_transform": {
+    "initial": 13,
+    "step": -1
+   }
+  },
+  {
+   "custom_offset_field": 412,
+   "custom_size_field": 172,
+   "index": 2,
+   "name": "string",
+   "payload_transform": {
+    "initial": 95,
+    "step": 1
+   }
+  },
+  {
+   "custom_offset_field": 76,
+   "custom_size_field": 292,
+   "index": 3,
+   "name": "events"
+  },
+  {
+   "custom_offset_field": 196,
+   "custom_size_field": 308,
+   "index": 4,
+   "name": "properties"
+  },
+  {
+   "custom_offset_field": 504,
+   "custom_size_field": 64,
+   "index": 5,
+   "name": "methods"
+  },
+  {
+   "custom_offset_field": 564,
+   "custom_size_field": 268,
+   "index": 6,
+   "name": "parameterDefaultValues"
+  },
+  {
+   "custom_offset_field": 352,
+   "custom_size_field": 140,
+   "index": 7,
+   "name": "fieldDefaultValues"
+  },
+  {
+   "custom_offset_field": 644,
+   "custom_size_field": 116,
+   "index": 8,
+   "name": "fieldAndParameterDefaultValueData"
+  },
+  {
+   "custom_offset_field": 468,
+   "custom_size_field": 20,
+   "index": 9,
+   "name": "fieldMarshaledSizes"
+  },
+  {
+   "custom_offset_field": 12,
+   "custom_size_field": 664,
+   "index": 10,
+   "name": "parameters"
+  },
+  {
+   "custom_offset_field": 384,
+   "custom_size_field": 344,
+   "index": 11,
+   "name": "fields"
+  },
+  {
+   "custom_offset_field": 0,
+   "custom_size_field": 240,
+   "index": 12,
+   "name": "genericParameters"
+  },
+  {
+   "custom_offset_field": 640,
+   "custom_size_field": 104,
+   "index": 13,
+   "name": "genericParameterConstraints"
+  },
+  {
+   "custom_offset_field": 484,
+   "custom_size_field": 496,
+   "index": 14,
+   "name": "genericContainers"
+  },
+  {
+   "custom_offset_field": 548,
+   "custom_size_field": 652,
+   "index": 15,
+   "name": "nestedTypes"
+  },
+  {
+   "custom_offset_field": 444,
+   "custom_size_field": 300,
+   "index": 16,
+   "name": "interfaces"
+  },
+  {
+   "custom_offset_field": 24,
+   "custom_size_field": 440,
+   "index": 17,
+   "name": "vtableMethods"
+  },
+  {
+   "custom_offset_field": 364,
+   "custom_size_field": 460,
+   "index": 18,
+   "name": "interfaceOffsets"
+  },
+  {
+   "custom_offset_field": 528,
+   "custom_size_field": 584,
+   "index": 19,
+   "name": "typeDefinitions"
+  },
+  {
+   "custom_offset_field": 540,
+   "custom_size_field": 320,
+   "index": 20,
+   "name": "images"
+  },
+  {
+   "custom_offset_field": 188,
+   "custom_size_field": 128,
+   "index": 21,
+   "name": "assemblies"
+  },
+  {
+   "custom_offset_field": 520,
+   "custom_size_field": 616,
+   "index": 22,
+   "name": "fieldRefs"
+  },
+  {
+   "custom_offset_field": 156,
+   "custom_size_field": 512,
+   "index": 23,
+   "name": "referencedAssemblies"
+  },
+  {
+   "custom_offset_field": 232,
+   "custom_size_field": 256,
+   "index": 24,
+   "name": "attributeData"
+  },
+  {
+   "custom_offset_field": 280,
+   "custom_size_field": 568,
+   "index": 25,
+   "name": "attributeDataRange"
+  },
+  {
+   "custom_offset_field": 88,
+   "custom_size_field": 260,
+   "index": 26,
+   "name": "unresolvedVirtualCallParameterTypes"
+  },
+  {
+   "custom_offset_field": 208,
+   "custom_size_field": 236,
+   "index": 27,
+   "name": "unresolvedVirtualCallParameterRanges"
+  },
+  {
+   "custom_offset_field": 632,
+   "custom_size_field": 332,
+   "index": 28,
+   "name": "windowsRuntimeTypeNames"
+  },
+  {
+   "custom_offset_field": 600,
+   "custom_size_field": 372,
+   "index": 29,
+   "name": "windowsRuntimeStrings"
+  },
+  {
+   "custom_offset_field": 396,
+   "custom_size_field": 48,
+   "index": 30,
+   "name": "exportedTypeDefinitions"
+  }
+ ],
+ "source_bias": 484,
+ "xxtea_key": "fc48e86b730833ef"
+}

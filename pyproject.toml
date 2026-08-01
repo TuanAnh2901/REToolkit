@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "retoolkit"
+version = "0.1.0"
+description = "Reusable Windows-first Unity IL2CPP reverse-engineering toolkit: orchestrates Cpp2IL, Frida, and targeted Ghidra workflows through versioned JSON contracts."
+requires-python = ">=3.13"
+license = { text = "MIT" }
+dependencies = ["jsonschema>=4.20"]
+
+[project.scripts]
+retoolkit = "retoolkit.cli:main"
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["live: opt-in live-gate tests, enabled by RETOOLKIT_LIVE_* = 1"]
