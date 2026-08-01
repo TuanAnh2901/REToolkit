@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://retoolkit.local/schemas/native_findings.schema.json",
+  "title": "REToolkit native findings",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "findings"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "findings": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/finding"}
+    }
+  },
+  "$defs": {
+    "address": {"type": "integer", "minimum": 0},
+    "address_list": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/address"},
+      "uniqueItems": true
+    },
+    "instruction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["address", "rva", "bytes", "mnemonic", "text"],
+      "properties": {
+        "address": {"$ref": "#/$defs/address"},
+        "rva": {"$ref": "#/$defs/address"},
+        "bytes": {"type": "string", "pattern": "^[0-9a-f]+$"},
+        "mnemonic": {"type": "string", "minLength": 1},
+        "text": {"type": "string", "minLength": 1}
+      }
+    },
+    "finding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "method_id", "entry_rva", "bytes_sha256", "instructions",
+        "direct_calls", "conditional_branches", "rip_references",
+        "immediates", "strings", "status"
+      ],
+      "properties": {
+        "method_id": {"type": "integer", "minimum": 0},
+        "entry_rva": {"$ref": "#/$defs/address"},
+        "bytes_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "instructions": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/instruction"}
+        },
+        "direct_calls": {"$ref": "#/$defs/address_list"},
+        "conditional_branches": {"$ref": "#/$defs/address_list"},
+        "rip_references": {"$ref": "#/$defs/address_list"},
+        "immediates": {"$ref": "#/$defs/address_list"},
+        "strings": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1},
+          "uniqueItems": true
+        },
+        "status": {"enum": ["decoded", "decoder_unavailable"]}
+      }
+    }
+  }
+}

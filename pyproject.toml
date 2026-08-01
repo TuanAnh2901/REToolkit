@@ -15,6 +15,7 @@ retoolkit = "retoolkit.cli:main"
 
 [project.optional-dependencies]
 dev = ["pytest>=8"]
+analysis = ["iced-x86>=1.21,<2"]
 
 [tool.setuptools.packages.find]
 where = ["src"]
