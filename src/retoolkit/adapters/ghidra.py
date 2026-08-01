@@ -128,6 +128,21 @@ class GhidraAdapter:
         artifacts = self._normalize(log_path, addresses, output_dir)
         return GhidraResult(artifacts=artifacts, log_path=log_path, duration_seconds=duration)
 
+    def decompile_manifest(self, *, manifest, cache, key, binary: Path | None = None,
+                           batch_size: int = 128, resume: bool = True):
+        """Run the persistent targeted runner while retaining the legacy API."""
+        from retoolkit.ghidra.targeted import TargetedGhidraRunner
+
+        runner = TargetedGhidraRunner(
+            headless=self.headless,
+            scripts_dir=self.scripts_dir,
+            cache=cache,
+            key=key,
+            binary=binary or Path(self.root),
+            timeout_seconds=self.timeout_seconds,
+        )
+        return runner.run(manifest, batch_size=batch_size, resume=resume)
+
     def _normalize(
         self, log_path: Path, addresses: list[str], output_dir: Path
     ) -> list[DecompileArtifact]:

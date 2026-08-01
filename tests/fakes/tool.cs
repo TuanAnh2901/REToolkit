@@ -22,6 +22,13 @@ class Program
         File.WriteAllText(Path.Combine(Environment.CurrentDirectory, "fake-pids.json"),
             "{\"own\":" + Process.GetCurrentProcess().Id + "}");
 
+        string capturePath = Environment.GetEnvironmentVariable("FAKETOOL_CAPTURE");
+        if (!string.IsNullOrEmpty(capturePath))
+        {
+            string encoded = "[" + string.Join(",", args.Select(a => "\"" + a.Replace("\\", "\\\\").Replace("\"", "\\\"") + "\"")) + "]\n";
+            File.AppendAllText(capturePath, encoded);
+        }
+
         string behaviorPath = Environment.GetEnvironmentVariable("FAKETOOL_BEHAVIOR");
         if (string.IsNullOrEmpty(behaviorPath))
         {
