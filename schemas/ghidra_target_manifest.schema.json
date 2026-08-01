@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://retoolkit.local/schemas/ghidra_target_manifest.schema.json",
+  "title": "REToolkit targeted Ghidra manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "binary_sha256", "method_map_sha256", "image_base", "targets"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "binary_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "method_map_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "image_base": {"type": "integer", "minimum": 0},
+    "targets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["target_id", "method_id", "rva", "address", "identity"],
+        "properties": {
+          "target_id": {"type": "integer", "minimum": 0},
+          "method_id": {"type": "integer", "minimum": 1},
+          "rva": {"type": "integer", "minimum": 0},
+          "address": {"type": "integer", "minimum": 0},
+          "identity": {"type": "string", "minLength": 1}
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://retoolkit.local/schemas/ghidra_result.schema.json",
+  "title": "REToolkit targeted Ghidra result row",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "target_id", "method_id", "rva", "address", "status", "function_name",
+    "function_entry_rva", "function_end_rva", "pseudocode", "error", "duration_ms"
+  ],
+  "properties": {
+    "target_id": {"type": "integer", "minimum": 0},
+    "method_id": {"type": "integer", "minimum": 1},
+    "rva": {"type": "integer", "minimum": 0},
+    "address": {"type": "integer", "minimum": 0},
+    "status": {"type": "string", "minLength": 1},
+    "function_name": {"type": ["string", "null"]},
+    "function_entry_rva": {"type": ["integer", "null"], "minimum": 0},
+    "function_end_rva": {"type": ["integer", "null"], "minimum": 0},
+    "pseudocode": {"type": ["string", "null"]},
+    "error": {"type": ["string", "null"]},
+    "duration_ms": {"type": "integer", "minimum": 0}
+  }
+}

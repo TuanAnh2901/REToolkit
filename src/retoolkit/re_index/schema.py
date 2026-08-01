@@ -3,7 +3,7 @@
 from pathlib import Path
 
 
-SCHEMA_VERSION = 1
+SCHEMA_VERSION = 2
 
 
 def _load_migration(filename: str) -> str:
@@ -13,4 +13,7 @@ def _load_migration(filename: str) -> str:
 
 # Each version contains one or more ordered SQL scripts.  Keeping scripts grouped
 # by version lets the store apply every missing version atomically.
-MIGRATIONS: dict[int, tuple[str, ...]] = {1: (_load_migration("re_index_v1.sql"),)}
+MIGRATIONS: dict[int, tuple[str, ...]] = {
+    1: (_load_migration("re_index_v1.sql"),),
+    2: (_load_migration("re_index_v2.sql"),),
+}

@@ -7,7 +7,7 @@ from retoolkit.re_index.store import ReIndex
 
 def test_open_migrates_empty_database(tmp_path) -> None:
     with ReIndex.open(tmp_path / "retoolkit.db") as index:
-        assert index.user_version == 1
+        assert index.user_version == 2
         assert index.scalar("SELECT COUNT(*) FROM methods") == 0
 
 
@@ -26,7 +26,7 @@ def test_failed_transaction_rolls_back(tmp_path) -> None:
 def test_open_rejects_database_newer_than_supported_schema(tmp_path) -> None:
     database = tmp_path / "newer.db"
     with ReIndex.open(database) as index:
-        index.execute("PRAGMA user_version = 2")
+        index.execute("PRAGMA user_version = 3")
         index.connection.commit()
 
     with pytest.raises(RuntimeError, match="newer"):
