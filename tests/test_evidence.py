@@ -2,9 +2,11 @@
 
 import hashlib
 import json
+from pathlib import Path
 
 import pytest
 
+from retoolkit.contracts.result import ResultError
 from retoolkit.contracts.schema import validate
 from retoolkit.core.evidence import EvidenceDir, load_evidence
 
@@ -76,3 +78,16 @@ def test_manifest_rejects_corrupt_records(tmp_path) -> None:
     ev.manifest_path.write_text(json.dumps(doc), encoding="utf-8")
     with pytest.raises(Exception):
         load_evidence(ev.manifest_path)
+
+
+def test_closed_sqlite_evidence_rejects_pending_wal_bytes(tmp_path) -> None:
+    database = tmp_path / "index.db"
+    database.write_bytes(b"sqlite-main")
+    Path(f"{database}-wal").write_bytes(b"pending")
+
+    with pytest.raises(ResultError, match="pending WAL bytes"):
+        _make(tmp_path).add_closed_sqlite(
+            logical_name="retoolkit.db",
+            source=database,
+            stage="index",
+        )

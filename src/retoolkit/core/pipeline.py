@@ -1,6 +1,8 @@
-"""Linear resumable pipeline: validate -> fixup -> cpp2il -> normalize ->
-optional frida/ghidra -> evidence. Sequential only; resume skips completed
-stages whose input hashes still match."""
+"""Linear resumable pipeline with a persistent RE index.
+
+The index is built immediately after normalization.  Optional Frida/Ghidra
+stages remain opt-in and are not involved in index creation or queries.
+"""
 
 from __future__ import annotations
 
@@ -22,7 +24,7 @@ from retoolkit.core.state import (
 )
 from retoolkit.core.state import PipelineState
 
-STAGES = ["validate", "fixup", "cpp2il", "normalize", "frida", "ghidra", "evidence"]
+STAGES = ["validate", "fixup", "cpp2il", "normalize", "index", "frida", "ghidra", "evidence"]
 OPTIONAL_STAGES = {"frida", "ghidra"}
 
 
@@ -33,6 +35,7 @@ class StageOutcome:
     reason: str | None = None
     artifacts: list[str] = field(default_factory=list)
     evidence: str | None = None
+    details: dict[str, object] = field(default_factory=dict)
 
 
 @dataclass
@@ -55,6 +58,7 @@ def plan(profile: Profile) -> dict:
         "fixup": bool(profile.stages.get("fixup")),
         "cpp2il": bool(profile.stages.get("cpp2il")),
         "normalize": bool(profile.stages.get("cpp2il")),
+        "index": bool(profile.stages.get("cpp2il")),
     }
     return {
         "name": profile.name,
@@ -96,6 +100,11 @@ def _stage_hash(profile: Profile, name: str, ctx: PipelineContext) -> str:
             parts.append(hashlib.sha256(metadata.read_bytes()).hexdigest())
     elif name == "normalize":
         parts = [str(profile.raw.get("method_map_collision_policy", "report"))]
+    elif name == "index":
+        normalized = ctx.workspace / "normalize" / "method-map.normalized.json"
+        parts = [str(ctx.profile.index_database or ctx.workspace / "re-index" / "retoolkit.db")]
+        if normalized.is_file():
+            parts.append(_sha256_file(normalized))
     elif name == "frida":
         parts = [json.dumps(profile.raw.get("analysis", {}), sort_keys=True)]
     elif name == "ghidra":
@@ -103,6 +112,14 @@ def _stage_hash(profile: Profile, name: str, ctx: PipelineContext) -> str:
     elif name == "evidence":
         parts = [str(ctx.evidence.run_id)]
     return hash_inputs(parts)
+
+
+def _sha256_file(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as source:
+        while chunk := source.read(1024 * 1024):
+            digest.update(chunk)
+    return digest.hexdigest()
 
 
 def _make_adapters(profile: Profile, caps: dict, *, include_ghidra: bool = False) -> dict:
@@ -180,6 +197,63 @@ def _run_stage(name: str, ctx: PipelineContext) -> StageOutcome:
         )
         return StageOutcome(name=name, status=STATUS_COMPLETED, evidence=record.artifact_path,
                             artifacts=[str(output)])
+    if name == "index":
+        from retoolkit.commands.index import database_path
+        from retoolkit.re_index.importers import import_method_map
+        from retoolkit.re_index.store import ReIndex
+
+        source = ctx.workspace / "normalize" / "method-map.normalized.json"
+        if not source.is_file():
+            return StageOutcome(name=name, status=STATUS_FAILED, reason="missing normalized method map")
+        try:
+            document = json.loads(source.read_text(encoding="utf-8"))
+        except (OSError, UnicodeDecodeError, ValueError) as exc:
+            raise ResultError.validation(f"normalized method map unreadable: {source}: {exc}") from None
+        if not isinstance(document, dict):
+            raise ResultError.validation(f"normalized method map root must be an object: {source}")
+
+        database = database_path(ctx.profile)
+        binary_sha = _sha256_file(ctx.profile.game_assembly)
+        map_sha = _sha256_file(source)
+        import_hash = hash_inputs([binary_sha, map_sha])
+        with ReIndex.open(database) as index:
+            method_map_id = import_method_map(
+                index,
+                document,
+                run_id=ctx.evidence.run_id,
+                profile_name=ctx.profile.name,
+                input_hash=import_hash,
+                binary_path=str(ctx.profile.game_assembly),
+                binary_sha256=binary_sha,
+                method_map_sha256=map_sha,
+            )
+            method_count = int(
+                index.scalar(
+                    "SELECT COUNT(*) FROM methods WHERE method_map_id = ?",
+                    (method_map_id,),
+                )
+            )
+            checkpoint = index.connection.execute("PRAGMA wal_checkpoint(TRUNCATE)").fetchone()
+            if checkpoint is None or int(checkpoint[0]) != 0:
+                raise ResultError.internal(f"RE index WAL checkpoint did not complete: {database}")
+
+        record = ctx.evidence.add_closed_sqlite(
+            logical_name="retoolkit.db",
+            source=database,
+            stage="index",
+            tool="retoolkit",
+        )
+        return StageOutcome(
+            name=name,
+            status=STATUS_COMPLETED,
+            evidence=record.artifact_path,
+            artifacts=[str(database)],
+            details={
+                "database": str(database),
+                "method_map_id": method_map_id,
+                "method_count": method_count,
+            },
+        )
     if name == "frida":
         if not ctx.profile.stages.get("frida"):
             return StageOutcome(name=name, status="skipped", reason="stage disabled")
@@ -269,10 +343,12 @@ def run_pipeline(profile: Profile, *, resume: bool = False, force_restart: bool 
             elif outcome.status == STATUS_FAILED:
                 state.set_status(name, STATUS_FAILED)
                 raise ResultError.validation(f"stage {name} failed: {outcome.reason}")
-            outcomes.append({
+            outcome_doc = {
                 "name": name, "status": outcome.status, "reason": outcome.reason,
                 "artifacts": outcome.artifacts,
-            })
+            }
+            outcome_doc.update(outcome.details)
+            outcomes.append(outcome_doc)
         return {
             "run_id": state.run_id,
             "input_hash": input_hash,

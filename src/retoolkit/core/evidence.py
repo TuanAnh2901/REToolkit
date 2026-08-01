@@ -133,6 +133,34 @@ class EvidenceDir:
             provenance=provenance,
         )
 
+    def add_closed_sqlite(
+        self,
+        *,
+        logical_name: str,
+        source: Path,
+        stage: str,
+        tool: str | None = None,
+        tool_version: str | None = None,
+    ) -> EvidenceRecord:
+        """Capture a checkpointed SQLite database with no pending WAL bytes.
+
+        Callers must checkpoint and close their writer first.  Rejecting a
+        non-empty WAL prevents evidence from silently omitting committed rows
+        that have not yet been folded into the main database file.
+        """
+        wal_path = Path(f"{source}-wal")
+        if wal_path.exists() and wal_path.stat().st_size:
+            raise ResultError.internal(
+                f"SQLite evidence source has pending WAL bytes: {wal_path}"
+            )
+        return self.add_file(
+            logical_name=logical_name,
+            source=source,
+            stage=stage,
+            tool=tool,
+            tool_version=tool_version,
+        )
+
     def _collision_free_name(self, logical_name: str) -> str:
         candidate = logical_name
         counter = 1

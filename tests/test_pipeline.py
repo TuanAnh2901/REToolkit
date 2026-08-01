@@ -100,9 +100,11 @@ def test_full_mocked_run_orders_stages(tmp_path, monkeypatch) -> None:
     assert result["stages"][1]["status"] == "skipped"  # fixup (no metadata_fixup)
     assert result["stages"][2]["status"] == "completed"  # cpp2il
     assert result["stages"][3]["status"] == "completed"  # normalize
-    assert result["stages"][4]["status"] == "skipped"  # frida disabled
-    assert result["stages"][5]["status"] == "skipped"  # ghidra disabled
-    assert result["stages"][6]["status"] == "completed"  # evidence
+    assert result["stages"][4]["status"] == "completed"  # index
+    assert result["stages"][4]["method_count"] == 1
+    assert result["stages"][5]["status"] == "skipped"  # frida disabled
+    assert result["stages"][6]["status"] == "skipped"  # ghidra disabled
+    assert result["stages"][7]["status"] == "completed"  # evidence
     assert (profile.workspace / "normalize" / "method-map.normalized.json").is_file()
     manifest = Path(result["evidence_manifest"])
     assert manifest.is_file()
@@ -144,5 +146,6 @@ def test_evidence_contains_stage_artifacts(tmp_path, monkeypatch) -> None:
     names = [record["logical_name"] for record in manifest["records"]]
     assert "method-pointer-map.json" in names
     assert "method-map.normalized.json" in names
+    assert "retoolkit.db" in names
     for record in manifest["records"]:
         assert len(record["sha256"]) == 64

@@ -85,6 +85,7 @@ def test_complete_fake_tool_pipeline(tmp_path, fake_tool, monkeypatch) -> None:
         "fixup": "skipped",
         "cpp2il": "completed",
         "normalize": "completed",
+        "index": "completed",
         "frida": "skipped",
         "ghidra": "skipped",
         "evidence": "completed",

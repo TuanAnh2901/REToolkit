@@ -31,7 +31,7 @@ capability, `3` timeout, `4` lock conflict, `5` internal, `130` interrupted.
 ## Pipeline
 
 ```
-validate -> fixup -> cpp2il -> normalize -> frida? -> ghidra? -> evidence
+validate -> fixup -> cpp2il -> normalize -> index -> frida? -> ghidra? -> evidence
 ```
 
 Sequential and resumable. Completed stages are skipped on resume only when
@@ -47,6 +47,25 @@ py -3.13 -m retoolkit pipeline restart profiles/everlusting/profile.json
 Game inputs are read-only; all transformed copies and outputs land under the
 profile's workspace.
 
+### Persistent RE index
+
+The pipeline imports the normalized Cpp2IL map into the profile's configured
+`index.database` after normalization.  The writer checkpoints and closes
+SQLite before the database is copied into evidence.  Frida and Ghidra stay
+optional: indexed target queries read SQLite directly and start no external
+tool process.
+
+```powershell
+py -3.13 -m retoolkit index build  profiles/everlusting/profile.json
+py -3.13 -m retoolkit index stats  profiles/everlusting/profile.json
+py -3.13 -m retoolkit target search profiles/everlusting/profile.json --class '*BattleUnit*' --method '*Attack*'
+py -3.13 -m retoolkit target resolve profiles/everlusting/profile.json 'Assembly-CSharp!System.Void Example.Type::Method()'
+```
+
+`index build` is useful when the normalized map already exists.  A normal
+`pipeline run`/`restart` performs the same import automatically and reports
+`database`, `method_map_id`, and `method_count` on its `index` stage.
+
 ## Live gates
 
 Real tool/game runs are opt-in and never part of the default suite:
@@ -56,6 +75,15 @@ Real tool/game runs are opt-in and never part of the default suite:
 | `RETOOLKIT_LIVE_CPP2IL=1` | real Cpp2IL method-map export against the game |
 | `RETOOLKIT_LIVE_FRIDA=1` | spawn the game and run a resolve-only trace |
 | `RETOOLKIT_LIVE_GHIDRA=1` | targeted headless decompile (needs installed Ghidra) |
+
+The exact current-build index-count acceptance additionally consumes
+`RETOOLKIT_PROFILE` and is run explicitly:
+
+```powershell
+$env:RETOOLKIT_LIVE_CPP2IL='1'
+$env:RETOOLKIT_PROFILE='D:\VSCode\REToolkit\profiles\everlusting\profile.json'
+py -3.13 -m pytest tests\live\test_re_index_live.py -v
+```
 
 ## Reference profile
 
