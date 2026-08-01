@@ -28,11 +28,11 @@ def import_method_map(
         raise ResultError.validation("normalized method map contains invalid entries")
 
     with index.transaction():
-        index.ensure_run(run_id, profile_name, input_hash)
         binary_id = index.ensure_binary(binary_sha256, binary_path)
         existing = index.find_method_map(binary_id, method_map_sha256)
         if existing is not None:
             return existing
+        index.ensure_run(run_id, profile_name, input_hash)
         map_id = index.insert_method_map(binary_id, method_map_sha256, len(methods))
         index.insert_methods(map_id, methods)
         return map_id

@@ -11,7 +11,7 @@ from retoolkit.cli import build_parser, main
 from retoolkit.contracts.result import ExitCode
 
 
-def _profile(tmp_path: Path) -> Path:
+def _profile(tmp_path: Path, *, database: str = "re-index/retoolkit.db") -> Path:
     game = tmp_path / "game"
     game.mkdir()
     assembly = game / "GameAssembly.dll"
@@ -57,7 +57,7 @@ def _profile(tmp_path: Path) -> Path:
             "metadata": "game/global-metadata.dat",
         },
         "workspace": "workspace",
-        "index": {"database": "re-index/retoolkit.db", "query_limit": 100},
+        "index": {"database": database, "query_limit": 100},
     }
     path = tmp_path / "profile.json"
     path.write_text(json.dumps(profile), encoding="utf-8")
@@ -112,6 +112,51 @@ def test_index_build_stats_and_target_resolve_are_canonical_json(tmp_path, capsy
     assert doc["status"] == "ok"
     assert doc["command"] == "target resolve"
     assert doc["data"]["matches"][0]["rva"] == "0x10"
+
+
+def test_index_commands_use_configured_database_path(tmp_path, capsys) -> None:
+    profile = _profile(tmp_path, database="configured/custom-index.db")
+    expected = tmp_path / "workspace" / "configured" / "custom-index.db"
+
+    code, doc, stderr = _run(["index", "build", str(profile)], capsys)
+    assert code == ExitCode.OK
+    assert stderr == ""
+    assert Path(doc["data"]["database"]) == expected
+    assert expected.is_file()
+    assert not (tmp_path / "workspace" / "re-index" / "retoolkit.db").exists()
+
+    code, doc, stderr = _run(["index", "stats", str(profile)], capsys)
+    assert code == ExitCode.OK
+    assert stderr == ""
+    assert Path(doc["data"]["database"]) == expected
+
+    code, doc, stderr = _run(
+        ["target", "search", str(profile), "--assembly", "A"], capsys
+    )
+    assert code == ExitCode.OK
+    assert stderr == ""
+    assert Path(doc["data"]["database"]) == expected
+
+
+def test_repeated_identical_index_build_leaves_stats_unchanged(tmp_path, capsys) -> None:
+    profile = _profile(tmp_path)
+
+    code, first_build, stderr = _run(["index", "build", str(profile)], capsys)
+    assert code == ExitCode.OK
+    assert stderr == ""
+    code, first_stats, stderr = _run(["index", "stats", str(profile)], capsys)
+    assert code == ExitCode.OK
+    assert stderr == ""
+
+    code, second_build, stderr = _run(["index", "build", str(profile)], capsys)
+    assert code == ExitCode.OK
+    assert stderr == ""
+    code, second_stats, stderr = _run(["index", "stats", str(profile)], capsys)
+    assert code == ExitCode.OK
+    assert stderr == ""
+
+    assert second_build["data"]["method_map_id"] == first_build["data"]["method_map_id"]
+    assert second_stats["data"] == first_stats["data"]
 
 
 def test_target_search_filters_without_spawning_external_tools(tmp_path, capsys, monkeypatch) -> None:

@@ -38,6 +38,7 @@ class Profile:
     game_assembly: Path
     metadata: Path
     workspace: Path
+    index_database: Path | None = None
     tools: dict[str, ToolConfig] = field(default_factory=dict)
     stages: dict[str, bool] = field(default_factory=dict)
     raw: dict = field(default_factory=dict)
@@ -77,6 +78,33 @@ def _resolve_path(
     if not resolved.is_relative_to(base_dir):
         raise ResultError.validation(
             f"profile.{field_name}: relative path '{value}' escapes the profile directory"
+        )
+    return resolved
+
+
+def _resolve_workspace_path(
+    value: str,
+    workspace: Path,
+    env: dict[str, str],
+    field_name: str,
+    reject_absolute: bool,
+) -> Path:
+    """Resolve an index artifact path, keeping it inside the profile workspace."""
+    had_template = bool(ENV_TEMPLATE.search(value))
+    resolved_str = _substitute(value, env, field_name) if had_template else value
+    candidate = Path(resolved_str)
+    if candidate.is_absolute():
+        if reject_absolute and not had_template:
+            raise ResultError.validation(
+                f"profile.{field_name}: absolute path '{resolved_str}' in a committed "
+                "profile is not portable; use ${ENV_VAR} or a relative path"
+            )
+        resolved = candidate.resolve()
+    else:
+        resolved = (workspace / candidate).resolve()
+    if not resolved.is_relative_to(workspace):
+        raise ResultError.validation(
+            f"profile.{field_name}: path '{value}' escapes the configured workspace"
         )
     return resolved
 
@@ -123,6 +151,19 @@ def load_profile(
     except ResultError as exc:
         errors.append(exc.message)
 
+    index_doc = doc.get("index", {})
+    if isinstance(index_doc, dict) and "database" in index_doc and "workspace" in resolved:
+        try:
+            resolved["index_database"] = _resolve_workspace_path(
+                index_doc["database"],
+                resolved["workspace"],
+                env,
+                "index.database",
+                reject_absolute,
+            )
+        except ResultError as exc:
+            errors.append(exc.message)
+
     tools: dict[str, ToolConfig] = {}
     for tool_name, tool_doc in doc.get("tools", {}).items():
         cfg = ToolConfig(timeout_seconds=int(tool_doc.get("timeout_seconds", 120)))
@@ -149,6 +190,7 @@ def load_profile(
         game_assembly=resolved["game_assembly"],
         metadata=resolved["metadata"],
         workspace=resolved["workspace"],
+        index_database=resolved.get("index_database"),
         tools=tools,
         stages=stages,
         raw=doc,

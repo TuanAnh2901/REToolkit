@@ -70,7 +70,7 @@ def index_stats(profile_path: Path) -> dict[str, object]:
 
 def database_path(profile: Profile) -> Path:
     """Return the index database path rooted under the resolved workspace."""
-    return profile.workspace / "re-index" / "retoolkit.db"
+    return profile.index_database or profile.workspace / "re-index" / "retoolkit.db"
 
 
 def _cmd_build(args: argparse.Namespace) -> Result:
