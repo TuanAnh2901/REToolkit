@@ -1,0 +1,1 @@
+{"type":"object","required":["schema_version","target","addresses","managed","native","graph","runtime","claims","provenance"],"properties":{"schema_version":{"const":"1.0.0"},"target":{"type":"object"},"addresses":{"type":"object"},"claims":{"type":"array"}}}

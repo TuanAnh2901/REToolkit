@@ -14,6 +14,7 @@ from retoolkit.commands.index import register_index_commands
 from retoolkit.commands.target import register_target_commands
 from retoolkit.commands.native import register_native_commands
 from retoolkit.commands.ghidra import register_ghidra_commands
+from retoolkit.commands.dossier import register_dossier_commands
 from retoolkit.contracts.result import ERROR_CODES, ExitCode, Result, ResultError
 
 
@@ -50,6 +51,7 @@ def build_parser() -> argparse.ArgumentParser:
     sub = parser.add_subparsers(dest="command", required=True)
     register_native_commands(sub)
     register_ghidra_commands(sub)
+    register_dossier_commands(sub)
     register_index_commands(sub)
     register_target_commands(sub)
 

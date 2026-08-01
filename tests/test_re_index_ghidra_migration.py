@@ -42,7 +42,7 @@ def test_v1_migrates_to_v2_without_losing_methods_and_is_idempotent(tmp_path) ->
     _create_v1_fixture(database)
 
     with ReIndex.open(database) as index:
-        assert index.user_version == 3
+        assert index.user_version == 4
         assert index.scalar("SELECT COUNT(*) FROM methods") == 1
         expected_tables = {
             "functions",
@@ -72,7 +72,7 @@ def test_v1_migrates_to_v2_without_losing_methods_and_is_idempotent(tmp_path) ->
                 "WHERE name NOT LIKE 'sqlite_%' ORDER BY type, name"
             )
         )
-        assert index.user_version == 3
+        assert index.user_version == 4
         assert index.scalar("SELECT COUNT(*) FROM methods") == 1
         assert schema_after == schema_before
 
