@@ -3,7 +3,7 @@
 from pathlib import Path
 
 
-SCHEMA_VERSION = 4
+SCHEMA_VERSION = 5
 
 
 def _load_migration(filename: str) -> str:
@@ -18,4 +18,5 @@ MIGRATIONS: dict[int, tuple[str, ...]] = {
     2: (_load_migration("re_index_v2.sql"),),
     3: (_load_migration("re_index_v3.sql"),),
     4: (_load_migration("re_index_v4.sql"),),
+    5: (_load_migration("re_index_v5.sql"),),
 }

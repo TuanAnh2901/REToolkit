@@ -1,0 +1,1 @@
+{"type":"object","required":["request_id","targets","operations"],"properties":{"request_id":{"type":"string"},"targets":{"type":"array"},"operations":{"type":"array"}}}
