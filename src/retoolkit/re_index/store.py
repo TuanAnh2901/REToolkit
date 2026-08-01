@@ -47,6 +47,9 @@ class ReIndex:
         row = self.execute(statement, parameters).fetchone()
         return None if row is None else row[0]
 
+    def query(self, statement: str, parameters: Sequence[Any] = ()) -> list[sqlite3.Row]:
+        """Return row-shaped results from a parameterized read statement."""
+        return self.execute(statement, parameters).fetchall()
     @contextmanager
     def transaction(self) -> Iterator["ReIndex"]:
         self.connection.execute("BEGIN IMMEDIATE")
