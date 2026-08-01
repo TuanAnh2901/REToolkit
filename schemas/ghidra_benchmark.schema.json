@@ -1,0 +1,1 @@
+{"$schema":"https://json-schema.org/draft/2020-12/schema","type":"object","required":["schema_version","records"],"properties":{"schema_version":{"const":"1.0.0"},"records":{"type":"array","items":{"type":"object","required":["worker_count","batch_size","elapsed_seconds","completed","failed","jvm_launches","throughput"]}},"optimum":{"type":["object","null"]}}}
