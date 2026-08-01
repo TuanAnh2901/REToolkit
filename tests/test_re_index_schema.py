@@ -18,7 +18,7 @@ def test_schema_v1_contains_required_tables() -> None:
         "artifacts",
     ):
         assert f"CREATE TABLE IF NOT EXISTS {table}" in sql
-    assert SCHEMA_VERSION == 2
+    assert SCHEMA_VERSION == 3
 
 
 def test_target_query_rejects_empty_selector() -> None:

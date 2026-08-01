@@ -1,0 +1,1 @@
+{"type":"object","required":["schema_version","session_id","status","event_count","dropped_count","duration_seconds"],"properties":{"schema_version":{"type":"string"},"event_count":{"type":"integer","minimum":0},"dropped_count":{"type":"integer","minimum":0}}}

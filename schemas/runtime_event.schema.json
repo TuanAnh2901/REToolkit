@@ -1,0 +1,1 @@
+{"type":"object","required":["schema_version","session_id","sequence","target_id","method_id","module_base","runtime_address","rva","event_kind","payload","timestamp"],"properties":{"schema_version":{"type":"string"},"sequence":{"type":"integer","minimum":0},"target_id":{"type":"integer"},"method_id":{"type":"integer"},"payload":{"type":"object"}}}
