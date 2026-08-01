@@ -11,6 +11,10 @@
     "metadata": "${RETOOLKIT_GAME_ROOT}/Everlusting Life_Data/il2cpp_data/Metadata/global-metadata.dat",
     "root": "${RETOOLKIT_GAME_ROOT}"
   },
+  "index": {
+    "database": "${RETOOLKIT_WORKSPACE}/re-index/retoolkit.db",
+    "query_limit": 100
+  },
   "metadata_fixup": {
     "header_length": 676,
     "header_offset": 4,

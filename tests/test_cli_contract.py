@@ -159,3 +159,11 @@ def test_mfuscator_inspect_rejects_existing_analysis_directory(tmp_path, capsys)
     assert code == ExitCode.VALIDATION
     assert payload["error"]["code"] == "validation"
     assert "Analysis" in payload["error"]["message"]
+
+
+def test_index_usage_error_preserves_single_json_envelope(capsys) -> None:
+    code, payload, stdout, _ = _run(["index", "build"], capsys)
+    assert code == ExitCode.VALIDATION
+    assert payload["status"] == "error"
+    assert payload["error"]["code"] == "validation"
+    assert "Traceback" not in stdout

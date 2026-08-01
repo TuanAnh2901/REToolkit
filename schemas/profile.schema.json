@@ -20,6 +20,14 @@
       }
     },
     "workspace": { "type": "string", "minLength": 1 },
+    "index": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "database": { "type": "string", "minLength": 1 },
+        "query_limit": { "type": "integer", "minimum": 1, "maximum": 10000 }
+      }
+    },
     "metadata_fixup": {
       "type": "object",
       "description": "Obfuscated-metadata rebuild rules; validated against metadata_fixup.schema.json by the fixup stage",

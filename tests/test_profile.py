@@ -114,3 +114,18 @@ def test_validation_error_details_are_field_level(tmp_path) -> None:
         load_profile(path, env=_env(tmp_path))
     details = " ".join(str(d) for d in exc.value.details)
     assert "cooking" in details
+
+
+def test_index_settings_validate_and_remain_in_profile_raw(tmp_path) -> None:
+    doc = json.loads(json.dumps(MINIMAL))
+    doc["index"] = {"database": "re-index/retoolkit.db", "query_limit": 100}
+    profile = load_profile(_write(tmp_path, doc), env=_env(tmp_path))
+    assert profile.raw["index"] == doc["index"]
+
+
+def test_index_query_limit_bounds_are_enforced(tmp_path) -> None:
+    doc = json.loads(json.dumps(MINIMAL))
+    doc["index"] = {"database": "re-index/retoolkit.db", "query_limit": 0}
+    with pytest.raises(ResultError) as exc:
+        load_profile(_write(tmp_path, doc), env=_env(tmp_path))
+    assert "query_limit" in " ".join(str(item) for item in exc.value.details)
