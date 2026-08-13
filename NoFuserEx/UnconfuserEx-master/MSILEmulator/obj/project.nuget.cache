@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "ZHyk7w3/lZk=",
+  "success": true,
+  "projectFilePath": "D:\\VSCode\\NoFuserEx\\UnconfuserEx-master\\MSILEmulator\\MSILEmulator.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Admin\\.nuget\\packages\\dnlib\\4.4.0\\dnlib.4.4.0.nupkg.sha512"
+  ],
+  "logs": []
+}

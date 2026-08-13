@@ -1,0 +1,13 @@
+D:\VSCode\NoFuserEx\UnconfuserEx-master\MSILEmulator\bin\Debug\net9.0\MSILEmulator.deps.json
+D:\VSCode\NoFuserEx\UnconfuserEx-master\MSILEmulator\bin\Debug\net9.0\MSILEmulator.dll
+D:\VSCode\NoFuserEx\UnconfuserEx-master\MSILEmulator\bin\Debug\net9.0\MSILEmulator.pdb
+D:\VSCode\NoFuserEx\UnconfuserEx-master\MSILEmulator\obj\Debug\net9.0\MSILEmulator.csproj.AssemblyReference.cache
+D:\VSCode\NoFuserEx\UnconfuserEx-master\MSILEmulator\obj\Debug\net9.0\MSILEmulator.GeneratedMSBuildEditorConfig.editorconfig
+D:\VSCode\NoFuserEx\UnconfuserEx-master\MSILEmulator\obj\Debug\net9.0\MSILEmulator.AssemblyInfoInputs.cache
+D:\VSCode\NoFuserEx\UnconfuserEx-master\MSILEmulator\obj\Debug\net9.0\MSILEmulator.AssemblyInfo.cs
+D:\VSCode\NoFuserEx\UnconfuserEx-master\MSILEmulator\obj\Debug\net9.0\MSILEmulator.csproj.CoreCompileInputs.cache
+D:\VSCode\NoFuserEx\UnconfuserEx-master\MSILEmulator\obj\Debug\net9.0\MSILEmulator.sourcelink.json
+D:\VSCode\NoFuserEx\UnconfuserEx-master\MSILEmulator\obj\Debug\net9.0\MSILEmulator.dll
+D:\VSCode\NoFuserEx\UnconfuserEx-master\MSILEmulator\obj\Debug\net9.0\refint\MSILEmulator.dll
+D:\VSCode\NoFuserEx\UnconfuserEx-master\MSILEmulator\obj\Debug\net9.0\MSILEmulator.pdb
+D:\VSCode\NoFuserEx\UnconfuserEx-master\MSILEmulator\obj\Debug\net9.0\ref\MSILEmulator.dll

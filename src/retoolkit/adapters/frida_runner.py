@@ -54,14 +54,21 @@ class FridaRunner:
     def __init__(self, frida_module: Any) -> None:
         self._frida = frida_module
 
-    def run(self, config: FridaRunConfig) -> FridaRunResult:
-        device = self._frida.get_device(
-            self._frida.get_usb_device_id()
-            if hasattr(self._frida, "get_usb_device_id")
-            else None
-        )
+    def run(self, config: FridaRunConfig, on_message=None) -> FridaRunResult:
+        # Desktop Frida returns None for get_usb_device_id(); passing that
+        # value to get_device() raises on current bindings. Prefer the local
+        # device for that case while retaining the fake-device/test contract.
+        device_id = (self._frida.get_usb_device_id()
+                      if hasattr(self._frida, "get_usb_device_id") else None)
+        if device_id:
+            device = self._frida.get_device(device_id)
+        elif hasattr(self._frida, "get_local_device"):
+            device = self._frida.get_local_device()
+        else:
+            device = self._frida.get_device(None)
         spawned_pid: int | None = None
         session = None
+        result = FridaRunResult()
         try:
             if config.mode == "spawn":
                 spawned_pid = device.spawn(config.target)
@@ -71,10 +78,9 @@ class FridaRunner:
 
             source = self._preamble(config.script_params) + config.script_source
             script = session.create_script(source)
-            result = FridaRunResult()
             completed = threading.Event()
 
-            def on_message(message: dict, data: Any) -> None:
+            def handle_message(message: dict, data: Any) -> None:
                 entry = {"message": message}
                 if data is not None:
                     try:
@@ -82,11 +88,13 @@ class FridaRunner:
                     except AttributeError:
                         entry["data"] = str(data)
                 result.messages.append(entry)
+                if on_message is not None:
+                    on_message(entry)
                 if config.sentinel in _sentinel_markers(message):
                     result.sentinel_seen = True
                     completed.set()
 
-            script.on("message", on_message)
+            script.on("message", handle_message)
             script.load()
             if config.mode == "spawn":
                 device.resume(spawned_pid)
@@ -97,6 +105,11 @@ class FridaRunner:
                     f"frida script did not reach sentinel '{config.sentinel}' "
                     f"within {config.timeout_seconds}s"
                 )
+            return result
+        except KeyboardInterrupt:
+            # Ctrl+C is the normal stop mechanism for long-lived attach
+            # probes. Return the messages already collected after finally
+            # detaches, so the wrapper can persist the partial JSONL trace.
             return result
         finally:
             if session is not None:

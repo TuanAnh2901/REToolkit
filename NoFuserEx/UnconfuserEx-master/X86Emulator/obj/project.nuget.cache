@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "+H7i+HcF7cw=",
+  "success": true,
+  "projectFilePath": "D:\\VSCode\\NoFuserEx\\UnconfuserEx-master\\X86Emulator\\X86Emulator.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Admin\\.nuget\\packages\\dnlib\\4.4.0\\dnlib.4.4.0.nupkg.sha512",
+    "C:\\Users\\Admin\\.nuget\\packages\\sharpdisasm\\1.1.11\\sharpdisasm.1.1.11.nupkg.sha512"
+  ],
+  "logs": []
+}

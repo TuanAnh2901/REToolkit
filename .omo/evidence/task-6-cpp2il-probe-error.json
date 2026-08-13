@@ -1,0 +1,7 @@
+{
+  "classification": "missing",
+  "exe": "D:\\Temp\\opencode\\nonexistent\\Cpp2IL.exe",
+  "install_guidance": "Configure tools.cpp2il.path in the profile to a Cpp2IL executable.",
+  "message": "Cpp2IL executable not found",
+  "schema_version": "1.0.0"
+}

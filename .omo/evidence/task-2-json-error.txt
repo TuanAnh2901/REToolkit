@@ -1,0 +1,1 @@
+{"command": "_err-test", "data": {}, "error": {"code": "internal", "message": "RuntimeError: synthetic internal error (test-only path)"}, "exit_code": 5, "schema_version": "1.0.0", "status": "error"}

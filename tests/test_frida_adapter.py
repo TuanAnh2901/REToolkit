@@ -11,6 +11,14 @@ from tests.fakes.frida import FakeDevice, FakeFrida
 SENTINEL_MSG = {"type": "send", "payload": {"type": "trace", "event": "__retoolkit_done__"}}
 
 
+class LocalOnlyFrida:
+    def __init__(self, device) -> None:
+        self.device = device
+
+    def get_local_device(self):
+        return self.device
+
+
 def _adapter(tmp_path, messages, processes=None, target_factory=None):
     device = FakeDevice(messages, "__retoolkit_done__", processes=processes)
     frida = FakeFrida(device)
@@ -61,6 +69,13 @@ def test_explicit_pid_skips_selection(tmp_path) -> None:
     adapter, device, trace = _adapter(tmp_path, messages)
     adapter.run_trace(target=99, trace_script=trace, params={})
     assert device.attached == [99]
+
+
+def test_select_pid_uses_local_device_when_usb_device_id_api_is_absent() -> None:
+    device = FakeDevice([], "__retoolkit_done__", processes=[{"pid": 7, "name": "game.exe"}])
+    adapter = FridaAdapter(LocalOnlyFrida(device))
+
+    assert adapter.select_pid("game.exe") == 7
 
 
 def test_write_jsonl_records_evidence(tmp_path) -> None:

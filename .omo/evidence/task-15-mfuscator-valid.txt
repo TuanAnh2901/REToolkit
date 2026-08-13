@@ -1,0 +1,3 @@
+........s............                                                    [100%]
+--- known-good reconstruction verified against real game metadata (RETOOLKIT_GAME_ROOT) ---
+sha256 ad9c4ec9b62682c6f6380759c090632469ac932e90ee3668015558d0f6d65dc7 = Cpp2IL-loaded metadata (206366 methods)

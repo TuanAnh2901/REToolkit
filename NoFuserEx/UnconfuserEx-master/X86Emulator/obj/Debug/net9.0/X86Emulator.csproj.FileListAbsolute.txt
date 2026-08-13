@@ -1,0 +1,13 @@
+D:\VSCode\NoFuserEx\UnconfuserEx-master\X86Emulator\bin\Debug\net9.0\X86Emulator.deps.json
+D:\VSCode\NoFuserEx\UnconfuserEx-master\X86Emulator\bin\Debug\net9.0\X86Emulator.dll
+D:\VSCode\NoFuserEx\UnconfuserEx-master\X86Emulator\bin\Debug\net9.0\X86Emulator.pdb
+D:\VSCode\NoFuserEx\UnconfuserEx-master\X86Emulator\obj\Debug\net9.0\X86Emulator.csproj.AssemblyReference.cache
+D:\VSCode\NoFuserEx\UnconfuserEx-master\X86Emulator\obj\Debug\net9.0\X86Emulator.GeneratedMSBuildEditorConfig.editorconfig
+D:\VSCode\NoFuserEx\UnconfuserEx-master\X86Emulator\obj\Debug\net9.0\X86Emulator.AssemblyInfoInputs.cache
+D:\VSCode\NoFuserEx\UnconfuserEx-master\X86Emulator\obj\Debug\net9.0\X86Emulator.AssemblyInfo.cs
+D:\VSCode\NoFuserEx\UnconfuserEx-master\X86Emulator\obj\Debug\net9.0\X86Emulator.csproj.CoreCompileInputs.cache
+D:\VSCode\NoFuserEx\UnconfuserEx-master\X86Emulator\obj\Debug\net9.0\X86Emulator.sourcelink.json
+D:\VSCode\NoFuserEx\UnconfuserEx-master\X86Emulator\obj\Debug\net9.0\X86Emulator.dll
+D:\VSCode\NoFuserEx\UnconfuserEx-master\X86Emulator\obj\Debug\net9.0\refint\X86Emulator.dll
+D:\VSCode\NoFuserEx\UnconfuserEx-master\X86Emulator\obj\Debug\net9.0\X86Emulator.pdb
+D:\VSCode\NoFuserEx\UnconfuserEx-master\X86Emulator\obj\Debug\net9.0\ref\X86Emulator.dll

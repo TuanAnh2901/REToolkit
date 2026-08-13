@@ -1,0 +1,11 @@
+{
+    "schema_version": 2,
+    "commit": "HEAD",
+    "indexed_at": "2026-08-01T09:22:50Z",
+    "project": "REToolkit",
+    "nodes": 1136,
+    "edges": 4765,
+    "original_size": 5046272,
+    "compressed_size": 892958,
+    "compression_level": 3
+}

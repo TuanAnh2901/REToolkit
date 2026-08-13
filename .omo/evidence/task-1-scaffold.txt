@@ -1,0 +1,30 @@
+Task 1: REToolkit scaffold
+==========================
+Date: 2026-07-31
+
+Notes: directory already existed with a fully-built prior project (all 23
+tasks complete). This run restored the scaffold files that a fresh-scaffold
+write pass had clobbered (pyproject.toml, .gitignore, __init__.py,
+__main__.py, tests/conftest.py) — recovered byte-faithful from
+__pycache__/*.pyc and the editable-install dist-info (METADATA,
+entry_points.txt). Removed bogus empty cli/ package dir (project uses
+cli.py module per docs/architecture.md). No git commits made.
+
+Verification:
+- git init: D:\VSCode\REToolkit (.git present, no commits)
+- py -3.13 -m pip install -e .  ->  Successfully installed retoolkit-0.1.0
+- py -3.13 -m pytest -q         ->  119 passed, 5 skipped (live gates), 0 warnings
+- py -3.13 -m retoolkit --version -> {"command":"version","data":{"version":"0.1.0"},
+  "error":null,"exit_code":0,"schema_version":"1.0.0","status":"ok"}
+
+Scaffold files in place:
+- pyproject.toml        requires-python >=3.13, deps jsonschema>=4.20,
+                        [project.scripts] retoolkit = retoolkit.cli:main,
+                        dev extra pytest>=8, [tool.pytest.ini_options]
+                        testpaths/markers
+- src/retoolkit/__init__.py   docstring + __version__ 0.1.0 + REQUIRED_PYTHON (3,13)
+- src/retoolkit/__main__.py   _guard() enforces 3.13 floor, dispatches to cli
+- src/retoolkit/{core,contracts,adapters,metadata,normalizers,runtime}/
+- tests/conftest.py     REPO_ROOT/SRC path setup + fake_tool session fixture
+- .gitignore            Python artifacts + fake-argv.json/fake-pids.json
+- .editorconfig         4-space, LF, utf-8

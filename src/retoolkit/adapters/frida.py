@@ -32,7 +32,13 @@ class FridaAdapter:
             import frida
 
             self._frida = frida
-        return self._frida.get_device(self._frida.get_usb_device_id())
+        device_id = (self._frida.get_usb_device_id()
+                      if hasattr(self._frida, "get_usb_device_id") else None)
+        if device_id:
+            return self._frida.get_device(device_id)
+        if hasattr(self._frida, "get_local_device"):
+            return self._frida.get_local_device()
+        return self._frida.get_device(None)
 
     def select_pid(self, target: str | int) -> int:
         if isinstance(target, int):
@@ -60,7 +66,15 @@ class FridaAdapter:
         params: dict,
         mode: str = "attach",
         sentinel: str = SENTINEL,
+        on_message=None,
     ) -> list[dict]:
+        # Attach/spawn callers may construct the adapter without injecting a
+        # Frida module. Resolve it here before handing control to the generic
+        # runner; otherwise FridaRunner receives None and fails before device
+        # selection.
+        if self._frida is None:
+            import frida
+            self._frida = frida
         script_source = (self._resolver_source or RESOLVER_PATH.read_text(encoding="utf-8"))
         trace_source = Path(trace_script).read_text(encoding="utf-8")
         combined = script_source + "\n" + trace_source
@@ -73,7 +87,7 @@ class FridaAdapter:
             timeout_seconds=self.timeout_seconds,
             sentinel=sentinel,
         )
-        result = FridaRunner(self._frida).run(config)
+        result = FridaRunner(self._frida).run(config, on_message=on_message)
         return result.messages
 
     @staticmethod

@@ -1,0 +1,16 @@
+Task 1: Python version floor check
+==================================
+Date: 2026-07-31
+
+Command: PYTHONPATH=D:\VSCode\REToolkit\src; py -3.12 -m retoolkit
+(requires-python >=3.13 blocks real 3.12 install; PYTHONPATH used to make
+the package importable so the __main__._guard() version check fires.)
+
+stderr:
+  retoolkit requires Python 3.13 or newer; running Python 3.12.10. Install
+  Python 3.13 and invoke with `py -3.13 -m retoolkit`.
+
+Exit code: 5  (not a cryptic ModuleNotFoundError/ImportError)
+
+Message matches __main__._guard() in src/retoolkit/__main__.py; guard runs
+before importing retoolkit.cli, so no import-chain errors surface.

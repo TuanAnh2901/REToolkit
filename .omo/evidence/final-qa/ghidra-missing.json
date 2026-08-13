@@ -1,0 +1,2 @@
+{"command": "pipeline", "data": {}, "error": {"code": "missing_capability", "message": "Ghidra analyzeHeadless not found at D:\\Temp\\retoolkit-qa\\ghidra-nonexistent\\support\\analyzeHeadless.bat; install Ghidra and point tools.ghidra.path at the extracted root (see research/ghidra-contract.md)"}, "exit_code": 2, "schema_version": "1.0.0", "status": "error"}
+EXIT=2

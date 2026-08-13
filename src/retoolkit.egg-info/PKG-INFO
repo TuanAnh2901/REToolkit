@@ -1,0 +1,9 @@
+Metadata-Version: 2.4
+Name: retoolkit
+Version: 0.1.0
+Summary: Reusable Windows-first Unity IL2CPP reverse-engineering toolkit: orchestrates Cpp2IL, Frida, and targeted Ghidra workflows through versioned JSON contracts.
+License: MIT
+Requires-Python: >=3.13
+Requires-Dist: jsonschema>=4.20
+Provides-Extra: dev
+Requires-Dist: pytest>=8; extra == "dev"

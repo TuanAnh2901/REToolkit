@@ -1,0 +1,18 @@
+G£ö duplicate short names resolve exactly by namespace and assembly (6.749ms)
+G£ö overloads resolve to distinct pointers (1.4621ms)
+G£ö missing class and missing method yield not_found results (1.8914ms)
+G£ö inherited instance field resolves through parent walk (1.0901ms)
+G£ö static field address is static-base plus offset (0.7912ms)
+G£ö non-static field rejects static resolution (0.4575ms)
+G£ö icall resolution via il2cpp_resolve_icall export (0.6148ms)
+G£ö readiness timeout produces structured error, not exception (29.5281ms)
+G£ö repeat lookup is memoized (single ok message, same pointer) (0.854ms)
+Gä¦ tests 9
+Gä¦ suites 0
+Gä¦ pass 9
+Gä¦ fail 0
+Gä¦ cancelled 0
+Gä¦ skipped 0
+Gä¦ todo 0
+Gä¦ duration_ms 253.9282
+--- scenarios: collision-safe, overloads, missing member, inherited field, static field, icall, readiness timeout, memoization ---

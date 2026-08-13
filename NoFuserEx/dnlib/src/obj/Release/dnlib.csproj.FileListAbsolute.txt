@@ -1,0 +1,7 @@
+D:\VSCode\NoFuserEx\dnlib\Release\bin\dnlib.xml
+D:\VSCode\NoFuserEx\dnlib\Release\bin\dnlib.dll
+D:\VSCode\NoFuserEx\dnlib\Release\bin\dnlib.pdb
+D:\VSCode\NoFuserEx\dnlib\src\obj\Release\dnlib.csproj.AssemblyReference.cache
+D:\VSCode\NoFuserEx\dnlib\src\obj\Release\dnlib.csproj.CoreCompileInputs.cache
+D:\VSCode\NoFuserEx\dnlib\src\obj\Release\dnlib.dll
+D:\VSCode\NoFuserEx\dnlib\src\obj\Release\dnlib.pdb
