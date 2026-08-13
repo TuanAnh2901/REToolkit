@@ -8,3 +8,8 @@ dist/
 fake-argv.json
 fake-pids.json
 .worktrees/
+
+.tmp/
+.codebase-memory/
+.omo/
+.worktrees/
