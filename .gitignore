@@ -13,3 +13,7 @@ fake-pids.json
 .codebase-memory/
 .omo/
 .worktrees/
+
+# .NET build output (release zips are produced by scripts/package_release.ps1)
+[Bb]in/
+[Oo]bj/
