@@ -9,10 +9,11 @@ fake-argv.json
 fake-pids.json
 .worktrees/
 
+# local-only state: index DB, agent workspace, test cache
 .tmp/
 .codebase-memory/
 .omo/
-.worktrees/
+.pytest_cache/
 
 # .NET build output (release zips are produced by scripts/package_release.ps1)
 [Bb]in/

@@ -1,2 +1,0 @@
-{"command": "pipeline plan", "data": {"name": "everlusting", "stages": [{"enabled": true, "name": "validate"}, {"enabled": true, "name": "fixup"}, {"enabled": true, "name": "cpp2il"}, {"enabled": true, "name": "normalize"}, {"enabled": false, "name": "frida"}, {"enabled": false, "name": "ghidra"}, {"enabled": true, "name": "evidence"}]}, "error": null, "exit_code": 0, "schema_version": "1.0.0", "status": "ok"}
-EXIT=0

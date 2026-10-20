@@ -1,8 +1,0 @@
-{
-  "classification": "missing",
-  "headless_path": null,
-  "install_guidance": "Ghidra is not installed. Extract the archive (Java 21+), verify its SHA-256 first, then set tools.ghidra.path in the profile or RETOOLKIT_GHIDRA to the extracted root. Expected headless script: <root>/support/analyzeHeadless.bat",
-  "installed": false,
-  "schema_version": "1.0.0",
-  "version": null
-}

@@ -1,2 +1,0 @@
-......                                                                   [100%]
-collision + partial-write scenarios covered (see test_evidence.py)

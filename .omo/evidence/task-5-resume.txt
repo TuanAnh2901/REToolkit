@@ -1,3 +1,0 @@
-..........                                                               [100%]
---- lock/stale scenarios (asserted in pytest) ---
-lock conflict exit=4, stale state exit=1 with --restart hint, interrupted stage rerun

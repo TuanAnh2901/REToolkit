@@ -1,2 +1,0 @@
-{"command": "profile", "data": {}, "error": {"code": "validation", "details": ["schema_version: '1.0.0' was expected", "game: 'metadata' is a required property"], "message": "profile 'D:\\Temp\\retoolkit-qa\\profiles\\bad.json' failed validation"}, "exit_code": 1, "schema_version": "1.0.0", "status": "error"}
-EXIT=1

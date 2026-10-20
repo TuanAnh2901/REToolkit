@@ -1,2 +1,0 @@
-  File "<string>", line 5     if r'\final-qa\' in f: continue        ^ SyntaxError: unterminated string literal (detected at line 5); perhaps you escaped the end quote? 
-EXIT=1
